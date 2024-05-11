@@ -1,0 +1,34 @@
+.container {
+  max-width: 1220px;
+  margin: auto;
+  background-color: white;
+  height: 100%;
+  padding: 20px;
+  border-radius: 10px;
+
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+}
+
+.row aside {
+  flex: 1;
+}
+
+.row main {
+  flex: 4;
+}
+
+/* section */
+section {
+  flex: 1;
+}
+section aside {
+  background-color: #1e272e;
+  color: #f9fdff;
+  padding: 20px 10px;
+}
