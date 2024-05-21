@@ -15,7 +15,7 @@ export default function Multiply({ icon, title, id }) {
     () =>
       updateNodeState(
         id,
-        nums.reduce((a, b) => a * b, 1)
+        nums.reduce((a, b) => a * b)
       ),
     [nums, id, updateNodeState]
   );

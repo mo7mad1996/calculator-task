@@ -1,7 +1,7 @@
 // components
 import Add from "../mathematicalCalculations/Add";
 import Divide from "../mathematicalCalculations/Divide";
-import Multiply from "../mathematicalCalculations/Divide";
+import Multiply from "../mathematicalCalculations/Multiply";
 import Subtract from "../mathematicalCalculations/Subtract";
 import Input from "../values/Input";
 import Output from "../values/Output";
@@ -17,7 +17,7 @@ import { LuFolderOutput } from "react-icons/lu";
 import { GrAddCircle, GrSubtractCircle } from "react-icons/gr";
 import { TbMultiplier2X } from "react-icons/tb";
 import { TbDivide } from "react-icons/tb";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import ReactFlow, { addEdge, useNodesState } from "reactflow";
 
