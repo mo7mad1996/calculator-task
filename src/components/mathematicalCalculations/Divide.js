@@ -15,7 +15,7 @@ export default function Divide({ icon, title, id }) {
     () =>
       updateNodeState(
         id,
-        nums.reduce((a, b) => a / b)
+        nums.length ? nums.reduce((a, b) => a * Math.pow(b, -1)) : 0
       ),
     [nums, id, updateNodeState]
   );

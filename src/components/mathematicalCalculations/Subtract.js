@@ -12,11 +12,7 @@ export default function Subtract({ icon, title, id }) {
   }, [edges, id, nodesState]);
 
   useEffect(
-    () =>
-      updateNodeState(
-        id,
-        nums.reduce((a, b) => a - b)
-      ),
+    () => updateNodeState(id, nums.length ? nums.reduce((a, b) => a - b) : 0),
     [nums, id, updateNodeState]
   );
 
