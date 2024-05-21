@@ -1,5 +1,14 @@
+// components
+import Add from "../mathematicalCalculations/Add";
+import Divide from "../mathematicalCalculations/Divide";
+import Multiply from "../mathematicalCalculations/Divide";
+import Subtract from "../mathematicalCalculations/Subtract";
+import Input from "../values/Input";
+import Output from "../values/Output";
+
 // css
 import "./style.css";
+import "reactflow/dist/style.css";
 
 // icons
 import { IoMenuOutline } from "react-icons/io5";
@@ -8,7 +17,12 @@ import { LuFolderOutput } from "react-icons/lu";
 import { GrAddCircle, GrSubtractCircle } from "react-icons/gr";
 import { TbMultiplier2X } from "react-icons/tb";
 import { TbDivide } from "react-icons/tb";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import ReactFlow, { addEdge, useNodesState } from "reactflow";
+
+// cntext
+import { useNodeContext } from "../../context";
 
 export default function Content() {
   const components = [
@@ -38,19 +52,47 @@ export default function Content() {
     },
   ];
 
+  // state
   const [active, setActive] = useState(null);
-  const [elements, setElements] = useState([]);
+
+  // context
+  const { nodesState, updateNodeState, edges, setEdges, onEdgesChange } =
+    useNodeContext();
+
+  // react-flow
+  const [elements, setElements, onElementChange] = useNodesState([]);
 
   // methods
   function drop(e) {
+    e.preventDefault();
+    const id = e.timeStamp.toString();
+
+    updateNodeState(id, null);
+
     setElements((a) => [
       ...a,
       {
-        ...{ x: e.nativeEvent.layerX, y: e.nativeEvent.layerY }, // postion
-        ...components[active],
+        id,
+        position: handleMouseMove(e), // postion
+        data: {
+          label: <Element element={{ ...components[active], id }} />,
+        },
+        draggable: true, // Make the node draggable
       },
     ]);
   }
+
+  const handleMouseMove = (event) => {
+    const rect = event.target.getBoundingClientRect();
+    const x = event.clientX - rect.left - 150 / 2;
+    const y = event.clientY - rect.top - 30;
+    return { x, y };
+  };
+
+  const onConnect = (params) => {
+    updateNodeState(params.target, nodesState[params.source]);
+    setEdges((eds) => addEdge(params, eds));
+  };
 
   return (
     <section className="row">
@@ -60,9 +102,13 @@ export default function Content() {
         ))}
       </aside>
       <main onDrop={drop} onDragOver={(e) => e.preventDefault()}>
-        {elements.map((i, n) => (
-          <ReadyItem key={n} {...i} />
-        ))}
+        <ReactFlow
+          nodes={elements}
+          onConnect={onConnect}
+          edges={edges}
+          onNodesChange={onElementChange}
+          onEdgesChange={onEdgesChange}
+        />
       </main>
     </section>
   );
@@ -78,7 +124,6 @@ function Item({ component, setActive, n }) {
     >
       <span className="title">
         {component.icon}
-
         {component.title}
       </span>
 
@@ -87,15 +132,15 @@ function Item({ component, setActive, n }) {
   );
 }
 
-function ReadyItem(i) {
-  return (
-    <div className="item" style={{ left: i.x, top: i.y }}>
-      <header>
-        {i.icon} {i.title}
-      </header>
-      <div className="p-1">
-        <input />
-      </div>
-    </div>
-  );
+function Element({ element }) {
+  const components = {
+    Add: <Add {...element} />,
+    Subtract: <Subtract {...element} />,
+    Multiply: <Multiply {...element} />,
+    Divide: <Divide {...element} />,
+    Input: <Input {...element} />,
+    Output: <Output {...element} />,
+  };
+
+  return components[element.title];
 }

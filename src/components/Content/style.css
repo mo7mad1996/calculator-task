@@ -30,8 +30,7 @@ section main {
 }
 
 section main .item {
-  position: absolute;
-  transform: translate(-50%, -50%);
+  width: 100%;
   border: 1px solid #e3e3e3;
   background-color: white;
   box-shadow: 0px 10px 15px #c7c4c4;
@@ -51,4 +50,22 @@ section main .item .p-1 {
 
 section main .item .p-1 input {
   max-width: 80px;
+}
+section main .item .fs {
+  font-size: 25px;
+}
+section main .arrow {
+  border-left: 2px dashed #313983;
+  border-bottom: 2px dashed #313983;
+  border-bottom-left-radius: 10px;
+  position: absolute;
+}
+
+.react-flow__handle {
+  width: 22px;
+  height: 22px;
+}
+
+.react-flow__node-default {
+  padding: 0 !important;
 }
